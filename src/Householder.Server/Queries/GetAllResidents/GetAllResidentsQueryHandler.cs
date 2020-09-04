@@ -7,9 +7,9 @@ namespace Householder.Server.Queries
 {
     public class GetAllResidentsQueryHandler : IQueryHandler<GetAllResidentsQuery, IEnumerable<Resident>>
     {
-        private MySqlDatabase database;
+        private IMySqlDatabase database;
 
-        public GetAllResidentsQueryHandler(MySqlDatabase database)
+        public GetAllResidentsQueryHandler(IMySqlDatabase database)
         {
             this.database = database;
         }

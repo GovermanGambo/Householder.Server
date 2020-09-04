@@ -12,7 +12,7 @@ namespace Householder.Server.Api
     {
         public static IServiceRegistry RegisterCommandHandlers(this IServiceRegistry serviceRegistry)
         {
-            var commandTypes = Assembly.GetCallingAssembly()
+            var commandTypes = Assembly.Load("Householder.Server")
                 .GetTypes()
                 .Select(t => GetGenericInterface(t, typeof(ICommandHandler<,>)))
                 .Where(m => m != null);
@@ -23,7 +23,7 @@ namespace Householder.Server.Api
 
         public static IServiceRegistry RegisterQueryHandlers(this IServiceRegistry serviceRegistry)
         {
-            var queryTypes = Assembly.GetCallingAssembly()
+            var queryTypes = Assembly.Load("Householder.Server")
                 .GetTypes()
                 .Select(t => GetGenericInterface(t, typeof(IQueryHandler<,>)))
                 .Where(m => m != null);

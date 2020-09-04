@@ -13,12 +13,12 @@ namespace Householder.Server.Api
         {
             var configuration = GetConfiguration();
             serviceRegistry.Register<IConfigurationRoot>(c => configuration);
-        
+    
+            serviceRegistry.Register<IMySqlDatabase>(c => new MySqlDatabase(configuration["ConnectionStrings:DefaultConnection"]));
+
             // Register query and command handlers
             serviceRegistry.RegisterCommandHandlers();
             serviceRegistry.RegisterQueryHandlers();
-
-            serviceRegistry.Register<IMySqlDatabase>(c => new MySqlDatabase(configuration["ConnectionStrings:DefaultConnection"]));
         
             // Register controllers
             serviceRegistry.Register<ResidentController>(c => new ResidentController(c.GetInstance<IQueryProcessor>(), null));
