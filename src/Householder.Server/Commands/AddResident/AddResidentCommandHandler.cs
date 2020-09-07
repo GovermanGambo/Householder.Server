@@ -23,10 +23,24 @@ namespace Householder.Server.Commands
             cmd.CommandText = @"INSERT INTO `resident` (`name`) VALUES (@name)";
 
             cmd.Parameters.Add(new MySqlParameter("@name", resident.Name));
-
-            await cmd.ExecuteNonQueryAsync();
-
-            return cmd.LastInsertedId;
+            
+            try
+            {
+                await cmd.ExecuteNonQueryAsync();
+                return cmd.LastInsertedId;
+            }
+            catch(MySqlException ex)
+            {
+                if(ex.Number == 2627)
+                {
+                    return -1;
+                }
+                else
+                {
+                    throw ex;
+                }
+            }
+            
         }
     }
 }

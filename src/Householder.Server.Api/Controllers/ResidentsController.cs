@@ -43,7 +43,15 @@ namespace Householder.Server.Api.Controllers
 
             // TODO: Implement conflict status code
 
-            return CreatedAtAction(nameof(GetResident), new { id = resultId }, resident);
+            if (resultId >= 0)
+            {
+                return CreatedAtAction(nameof(GetResident), new { id = resultId }, resident);
+            }
+            else
+            {
+                return Conflict();
+            }
+            
         }
 
         [HttpGet("{id}")]
