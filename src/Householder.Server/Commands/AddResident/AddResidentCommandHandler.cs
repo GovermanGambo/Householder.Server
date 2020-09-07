@@ -7,9 +7,9 @@ namespace Householder.Server.Commands
 {
     public class AddResidentCommandHandler : ICommandHandler<AddResidentCommand, long>
     {
-        private MySqlDatabase database;
+        private IMySqlDatabase database;
 
-        public AddResidentCommandHandler(MySqlDatabase database)
+        public AddResidentCommandHandler(IMySqlDatabase database)
         {
             this.database = database;
         }
@@ -31,16 +31,20 @@ namespace Householder.Server.Commands
             }
             catch(MySqlException ex)
             {
-                if(ex.Number == 2627)
+                if (ex.ErrorCode == MySqlErrorCode.DuplicateKeyEntry)
                 {
+                    // TODO: Differentiate conflict exception
                     return -1;
+                }
+                else if (ex.ErrorCode == MySqlErrorCode.DataTooLong)
+                {
+                    return -2;
                 }
                 else
                 {
                     throw ex;
                 }
             }
-            
         }
     }
 }

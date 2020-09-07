@@ -20,7 +20,7 @@ namespace Householder.Server.Api
         public void ConfigureServices(IServiceCollection services)
         {
             // TODO: Use LightInject
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
         }
 
         public void ConfigureContainer(IServiceContainer container)

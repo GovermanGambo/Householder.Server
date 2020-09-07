@@ -8,9 +8,9 @@ namespace Householder.Server.Queries
 {
     public class GetResidentQueryHandler : IQueryHandler<GetResidentQuery, Resident>
     {
-        private MySqlDatabase database;
+        private IMySqlDatabase database;
 
-        public GetResidentQueryHandler(MySqlDatabase database)
+        public GetResidentQueryHandler(IMySqlDatabase database)
         {
             this.database = database;
         }
@@ -27,12 +27,17 @@ namespace Householder.Server.Queries
 
             var reader = await cmd.ExecuteReaderAsync();
 
-            await reader.ReadAsync();
-
-            return new Resident(
-                reader.GetInt32("id"),
-                reader.GetString("name")
-            );
+            if (await reader.ReadAsync())
+            {
+                return new Resident(
+                    reader.GetInt32("id"),
+                    reader.GetString("name")
+                );
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

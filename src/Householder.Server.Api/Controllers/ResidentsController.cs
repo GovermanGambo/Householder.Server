@@ -37,19 +37,22 @@ namespace Householder.Server.Api.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<long>> AddResident(Resident resident)
         {
             var command = new AddResidentCommand(resident);
             var resultId = await commandProcessor.ProcessAsync(command);
 
-            if (resultId >= 0)
-            {
-                return CreatedAtAction(nameof(GetResident), new { id = resultId }, resident);
-            }
-            else
+            if (resultId == -1)
             {
                 return Conflict();
             }
+            else if (resultId == -2)
+            {
+                return BadRequest();
+            }
+
+            return CreatedAtAction(nameof(GetResident), new { id = resultId }, resident);
             
         }
 

@@ -8,9 +8,9 @@ namespace Householder.Server.Queries
 {
     public class GetExpensesByResidentQueryHandler : IQueryHandler<GetExpensesByResidentQuery, IEnumerable<Expense>>
     {
-        private MySqlDatabase database;
+        private IMySqlDatabase database;
 
-        public GetExpensesByResidentQueryHandler(MySqlDatabase database)
+        public GetExpensesByResidentQueryHandler(IMySqlDatabase database)
         {
             this.database = database;
         }
