@@ -41,6 +41,8 @@ namespace Householder.Server.Api.Controllers
             var command = new AddResidentCommand(resident);
             var resultId = await commandProcessor.ProcessAsync(command);
 
+            // TODO: Implement conflict status code
+
             return CreatedAtAction(nameof(GetResident), new { id = resultId }, resident);
         }
 
