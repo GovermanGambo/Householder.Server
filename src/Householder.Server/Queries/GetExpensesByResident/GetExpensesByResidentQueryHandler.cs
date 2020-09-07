@@ -6,25 +6,25 @@ using MySqlConnector;
 
 namespace Householder.Server.Queries
 {
-    public class GetExpensesByStatusQueryHandler : IQueryHandler<GetExpensesByStatusQuery, IEnumerable<Expense>>
+    public class GetExpensesByResidentQueryHandler : IQueryHandler<GetExpensesByResidentQuery, IEnumerable<Expense>>
     {
         private MySqlDatabase database;
 
-        public GetExpensesByStatusQueryHandler(MySqlDatabase database)
+        public GetExpensesByResidentQueryHandler(MySqlDatabase database)
         {
             this.database = database;
         }
 
-        public async Task<IEnumerable<Expense>> Handle(GetExpensesByStatusQuery query)
+        public async Task<IEnumerable<Expense>> Handle(GetExpensesByResidentQuery query)
         {
             var results = new List<Expense>();
-            var statusId = (int)query.ExpenseStatus;
+            var residentId = query.ResidentID;
 
             var cmd = database.Connection.CreateCommand();
 
-            cmd.CommandText = @"SELECT r.id, r.name AS resident_name, e.amount, e.transaction_date, e.note, e.status_id FROM `expense` e NATURAL JOIN `resident` r WHERE `status_id` = @statusId;";
+            cmd.CommandText = @"SELECT r.id, r.name AS resident_name, e.amount, e.transaction_date, e.note, e.status_id FROM `expense` e NATURAL JOIN `resident` r WHERE `resident_id` = @residentId;";
 
-            cmd.Parameters.Add(new MySqlParameter("@statusId", statusId));
+            cmd.Parameters.Add(new MySqlParameter("@residentId", residentId));
 
             var reader = await cmd.ExecuteReaderAsync();
 

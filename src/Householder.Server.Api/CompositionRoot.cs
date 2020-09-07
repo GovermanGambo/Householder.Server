@@ -1,4 +1,5 @@
 using Householder.Server.Api.Controllers;
+using Householder.Server.Commands;
 using Householder.Server.DataAccess;
 using Householder.Server.Queries;
 using LightInject;
@@ -21,7 +22,7 @@ namespace Householder.Server.Api
             serviceRegistry.RegisterQueryHandlers();
         
             // Register controllers
-            serviceRegistry.Register<ResidentController>(c => new ResidentController(c.GetInstance<IQueryProcessor>(), null));
+            serviceRegistry.Register<ResidentsController>(c => new ResidentsController(c.GetInstance<IQueryProcessor>(), c.GetInstance<ICommandProcessor>(), null));
         }
 
         private IConfigurationRoot GetConfiguration()
