@@ -52,8 +52,7 @@ namespace Householder.Server.Api.Controllers
                 return BadRequest();
             }
 
-            return CreatedAtAction(nameof(GetResident), new { id = resultId }, resident);
-            
+            return CreatedAtAction(nameof(GetResident), new { id = resultId }, resident);   
         }
 
         [HttpGet("{id}")]
