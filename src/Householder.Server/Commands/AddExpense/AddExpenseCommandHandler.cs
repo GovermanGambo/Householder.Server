@@ -7,9 +7,9 @@ namespace Householder.Server.Commands
 {
     public class AddExpenseCommandHandler : ICommandHandler<AddExpenseCommand, long>
     {
-        private MySqlDatabase database;
+        private IMySqlDatabase database;
 
-        public AddExpenseCommandHandler(MySqlDatabase database)
+        public AddExpenseCommandHandler(IMySqlDatabase database)
         {
             this.database = database;
         }
@@ -18,18 +18,37 @@ namespace Householder.Server.Commands
         {
             var expense = command.Expense;
 
+            if (expense.Amount <= 0)
+            {
+                return -1;
+            }
+
             var cmd = database.Connection.CreateCommand();
 
-            cmd.CommandText = @"INSERT INTO `expense` (`resident_id`, `amount`, `transaction_date`, `note`) VALUES (@residentId, @amount, @transactionDate, @note)";
+            cmd.CommandText = @"INSERT INTO `expense` (`resident_id`, `amount`, `transaction_date`, `note`, `status_id`) VALUES (@residentId, @amount, @transactionDate, @note, @status)";
 
             cmd.Parameters.Add(new MySqlParameter("@residentId", expense.Payee.ID));
             cmd.Parameters.Add(new MySqlParameter("@amount", expense.Amount));
             cmd.Parameters.Add(new MySqlParameter("@transactionDate", expense.Date));
             cmd.Parameters.Add(new MySqlParameter("@note", expense.Note));
+            cmd.Parameters.Add(new MySqlParameter("@status", (int)expense.Status + 1));
 
-            await cmd.ExecuteNonQueryAsync();
-
-            return cmd.LastInsertedId;
+            try
+            {
+                await cmd.ExecuteNonQueryAsync();
+                return cmd.LastInsertedId;
+            }
+            catch(MySqlException ex)
+            {
+                if (ex.ErrorCode == MySqlErrorCode.DataTooLong || ex.ErrorCode == MySqlErrorCode.CannotAddForeignConstraint)
+                {
+                    return -1;
+                }
+                else
+                {
+                    throw ex;
+                }
+            }
         }
     }
 }

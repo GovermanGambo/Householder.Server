@@ -8,9 +8,9 @@ namespace Householder.Server.Queries
 {
     public class GetAllExpensesQueryHandler : IQueryHandler<GetAllExpensesQuery, IEnumerable<Expense>>
     {
-        private MySqlDatabase database;
+        private IMySqlDatabase database;
 
-        public GetAllExpensesQueryHandler(MySqlDatabase database)
+        public GetAllExpensesQueryHandler(IMySqlDatabase database)
         {
             this.database = database;
         }
@@ -22,7 +22,11 @@ namespace Householder.Server.Queries
 
             var cmd = database.Connection.CreateCommand();
 
-            cmd.CommandText = @"SELECT r.id, r.name AS resident_name, e.amount, e.transaction_date, e.note, e.status_id FROM `expense` e NATURAL JOIN `resident` r LIMIT @limit;";
+            var limitQuery = query.Limit != null ? $" LIMIT {limit}" : "";
+
+            var statusQuery = query.Status != null ? $" WHERE status_id={(int)(query.Status + 1)}" : "";
+
+            cmd.CommandText = @"SELECT e.id, r.id AS resident_id, r.name AS resident_name, e.amount, e.transaction_date, e.note, e.status_id FROM `expense` e LEFT JOIN `resident` r ON r.id=e.resident_id " + statusQuery + limitQuery + ";";
 
             cmd.Parameters.Add(new MySqlParameter("@limit", limit));
 
@@ -32,11 +36,11 @@ namespace Householder.Server.Queries
             {
                 results.Add(new Expense(
                     reader.GetInt32("id"),
-                    new Resident(reader.GetString("resident_name")),
+                    new Resident(reader.GetInt32("resident_id"), reader.GetString("resident_name")),
                     reader.GetDouble("amount"),
                     reader.GetDateTime("transaction_date"),
                     reader.GetString("note"),
-                    (ExpenseStatus)reader.GetInt32("status_id")
+                    (ExpenseStatus)(reader.GetInt32("status_id") - 1)
                 ));
             }
 

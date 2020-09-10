@@ -5,11 +5,12 @@ namespace Householder.Server.Queries
 {
     public class GetAllExpensesQuery : IQuery<IEnumerable<Expense>>
     {
-        public int Limit { get; }
-
-        public GetAllExpensesQuery(int limit)
+        public int? Limit { get; }
+        public int? Status { get; }
+        public GetAllExpensesQuery(int? limit, int? status)
         {
             Limit = limit;
+            Status = status;
         }
     }
 }

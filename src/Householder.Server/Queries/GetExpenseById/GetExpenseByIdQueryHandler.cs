@@ -8,9 +8,9 @@ namespace Householder.Server.Queries
 {
     public class GetExpenseByIdQueryHandler : IQueryHandler<GetExpenseByIdQuery, Expense>
     {
-        private MySqlDatabase database;
+        private IMySqlDatabase database;
 
-        public GetExpenseByIdQueryHandler(MySqlDatabase database)
+        public GetExpenseByIdQueryHandler(IMySqlDatabase database)
         {
             this.database = database;
         }
@@ -28,16 +28,21 @@ namespace Householder.Server.Queries
 
             var reader = await cmd.ExecuteReaderAsync();
 
-            await reader.ReadAsync();
-
-            return new Expense(
-                    reader.GetInt32("id"),
-                    new Resident(reader.GetString("resident_name")),
-                    reader.GetDouble("amount"),
-                    reader.GetDateTime("transaction_date"),
-                    reader.GetString("note"),
-                    (ExpenseStatus)reader.GetInt32("status_id")
-                );
+            if (await reader.ReadAsync())
+            {
+                return new Expense(
+                        reader.GetInt32("id"),
+                        new Resident(reader.GetString("resident_name")),
+                        reader.GetDouble("amount"),
+                        reader.GetDateTime("transaction_date"),
+                        reader.GetString("note"),
+                        (ExpenseStatus)(reader.GetInt32("status_id") - 1)
+                    );
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

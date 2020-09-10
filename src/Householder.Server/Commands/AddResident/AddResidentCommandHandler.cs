@@ -33,7 +33,6 @@ namespace Householder.Server.Commands
             {
                 if (ex.ErrorCode == MySqlErrorCode.DuplicateKeyEntry)
                 {
-                    // TODO: Differentiate conflict exception
                     return -1;
                 }
                 else if (ex.ErrorCode == MySqlErrorCode.DataTooLong)
