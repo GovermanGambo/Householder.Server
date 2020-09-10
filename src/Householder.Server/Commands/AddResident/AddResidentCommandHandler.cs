@@ -7,9 +7,9 @@ namespace Householder.Server.Commands
 {
     public class AddResidentCommandHandler : ICommandHandler<AddResidentCommand, long>
     {
-        private MySqlDatabase database;
+        private IMySqlDatabase database;
 
-        public AddResidentCommandHandler(MySqlDatabase database)
+        public AddResidentCommandHandler(IMySqlDatabase database)
         {
             this.database = database;
         }
@@ -23,10 +23,28 @@ namespace Householder.Server.Commands
             cmd.CommandText = @"INSERT INTO `resident` (`name`) VALUES (@name)";
 
             cmd.Parameters.Add(new MySqlParameter("@name", resident.Name));
-
-            await cmd.ExecuteNonQueryAsync();
-
-            return cmd.LastInsertedId;
+            
+            try
+            {
+                await cmd.ExecuteNonQueryAsync();
+                return cmd.LastInsertedId;
+            }
+            catch(MySqlException ex)
+            {
+                if (ex.ErrorCode == MySqlErrorCode.DuplicateKeyEntry)
+                {
+                    // TODO: Differentiate conflict exception
+                    return -1;
+                }
+                else if (ex.ErrorCode == MySqlErrorCode.DataTooLong)
+                {
+                    return -2;
+                }
+                else
+                {
+                    throw ex;
+                }
+            }
         }
     }
 }
