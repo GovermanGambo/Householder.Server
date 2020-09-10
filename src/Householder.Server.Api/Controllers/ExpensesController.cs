@@ -26,9 +26,9 @@ namespace Householder.Server.Api.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<Expense>>> GetAllExpenses(int? limit, int? status)
+        public async Task<ActionResult<IEnumerable<Expense>>> GetAllExpenses(int? limit, int? status, int? resident)
         {
-            var query = new GetAllExpensesQuery(limit, status);
+            var query = new GetAllExpensesQuery(limit, status, resident);
 
             var results = await queryProcessor.ProcessAsync(query);
 

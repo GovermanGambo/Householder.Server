@@ -7,10 +7,12 @@ namespace Householder.Server.Queries
     {
         public int? Limit { get; }
         public int? Status { get; }
-        public GetAllExpensesQuery(int? limit, int? status)
+        public int? ResidentId { get; }
+        public GetAllExpensesQuery(int? limit, int? status, int? residentId)
         {
             Limit = limit;
             Status = status;
+            ResidentId = residentId;
         }
     }
 }

@@ -26,7 +26,9 @@ namespace Householder.Server.Queries
 
             var statusQuery = query.Status != null ? $" WHERE status_id={(int)(query.Status + 1)}" : "";
 
-            cmd.CommandText = @"SELECT e.id, r.id AS resident_id, r.name AS resident_name, e.amount, e.transaction_date, e.note, e.status_id FROM `expense` e LEFT JOIN `resident` r ON r.id=e.resident_id " + statusQuery + limitQuery + ";";
+            var residentQuery = query.ResidentId != null ? ((statusQuery == "" ? " WHERE " : " AND ") + $"resident_id={query.ResidentId}") : "";
+
+            cmd.CommandText = @"SELECT e.id, r.id AS resident_id, r.name AS resident_name, e.amount, e.transaction_date, e.note, e.status_id FROM `expense` e LEFT JOIN `resident` r ON r.id=e.resident_id " + statusQuery + residentQuery + limitQuery + ";";
 
             cmd.Parameters.Add(new MySqlParameter("@limit", limit));
 
