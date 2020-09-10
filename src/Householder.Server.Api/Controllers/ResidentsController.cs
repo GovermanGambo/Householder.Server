@@ -72,24 +72,5 @@ namespace Householder.Server.Api.Controllers
                 return NotFound();
             }
         }
-
-        [HttpGet("{id}/expenses")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<Resident>>> GetExpensesByResident(int id)
-        {
-            var query = new GetExpensesByResidentQuery(id);
-            var result = await queryProcessor.ProcessAsync(query);
-
-            // TODO: May have to attempt get resident to check if resident exists or not
-            if (result != null)
-            {
-                return Ok(result);
-            }
-            else
-            {
-                return NotFound();
-            }
-        }
     }
 }
