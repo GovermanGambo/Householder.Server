@@ -70,5 +70,23 @@ namespace Householder.Server.Api.Controllers
 
             return CreatedAtAction(nameof(GetExpense), new { id = resultId }, expense);
         }
+
+        [HttpPut("{expenseId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> UpdateExpense(int expenseId, Expense expense)
+        {
+            var command = new UpdateExpenseDetailsCommand(expenseId, expense);
+            var resultId = await commandProcessor.ProcessAsync(command);
+
+            if (resultId)
+            {
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
+        } 
     }
 }

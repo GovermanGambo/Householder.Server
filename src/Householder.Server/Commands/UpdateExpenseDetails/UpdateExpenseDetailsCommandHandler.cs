@@ -7,9 +7,9 @@ namespace Householder.Server.Commands
 {
     public class UpdateExpenseDetailsCommandHandler : ICommandHandler<UpdateExpenseDetailsCommand, bool>
     {
-        private MySqlDatabase database;
+        private IMySqlDatabase database;
 
-        public UpdateExpenseDetailsCommandHandler(MySqlDatabase database)
+        public UpdateExpenseDetailsCommandHandler(IMySqlDatabase database)
         {
             this.database = database;
         }
