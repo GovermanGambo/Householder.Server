@@ -2,8 +2,8 @@ using System.Threading.Tasks;
 
 namespace Householder.Server.Commands
 {
-    public interface ICommandHandler<TCommand, TResult> where TCommand : ICommand<TResult>
+    public interface ICommandHandler<TCommand> where TCommand : ICommand
     {
-        Task<TResult> Handle(TCommand command);
+        Task Handle(TCommand command);
     }
 }

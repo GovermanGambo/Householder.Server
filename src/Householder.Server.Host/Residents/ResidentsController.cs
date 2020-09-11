@@ -1,3 +1,5 @@
+using CQRS.Command.Abstractions;
+using CQRS.Query.Abstractions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Householder.Server.Commands;
@@ -7,7 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace Householder.Server.Api.Controllers
+namespace Householder.Server.Host.Residents
 {
     [ApiController]
     [Route("api/[controller]")]

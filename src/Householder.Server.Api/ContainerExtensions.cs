@@ -14,7 +14,7 @@ namespace Householder.Server.Api
         {
             var commandTypes = Assembly.Load("Householder.Server")
                 .GetTypes()
-                .Select(t => GetGenericInterface(t, typeof(ICommandHandler<,>)))
+                .Select(t => GetGenericInterface(t, typeof(ICommandHandler<>)))
                 .Where(m => m != null);
             RegisterHandlers(serviceRegistry, commandTypes);
             serviceRegistry.Register<ICommandProcessor>(factory => new CommandProcessor((IServiceContainer)serviceRegistry));

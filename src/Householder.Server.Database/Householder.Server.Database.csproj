@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="**/*.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="DbReader" Version="2.3.4" />
+    <PackageReference Include="LightInject" Version="6.3.4" />
+    <PackageReference Include="MysqlConnector" Version="1.0.1" />
+    <PackageReference Include="ResourceReader" Version="0.0.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Householder.Server.Abstractions/Householder.Server.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>
