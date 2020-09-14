@@ -32,7 +32,7 @@ namespace Householder.Server.Services
             expenses.Add(expense);
             totalAmount += expense.Amount;
             
-            var resident = expense.Payee;
+            var resident = new Resident { Id = expense.ResidentId, Name = expense.ResidentName };
 
             expensesPerResident[resident] += expense.Amount;
         }

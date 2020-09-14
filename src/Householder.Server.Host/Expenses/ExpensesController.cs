@@ -60,7 +60,7 @@ namespace Householder.Server.Host.Expenses
             return Created(nameof(GetExpense), new { command.Id });  
         }
 
-        [HttpPatch("{id}")]
+        [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> PatchExpense([FromBodyAndRoute] UpdateExpenseCommand command)
         {

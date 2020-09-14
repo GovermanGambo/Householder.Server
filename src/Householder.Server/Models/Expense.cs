@@ -6,13 +6,15 @@ namespace Householder.Server.Models
     public class Expense
     {
         [JsonProperty("id")]
-        public int ID { get; set; }
-        [JsonProperty("payee")]
-        public Resident Payee { get; set; }
+        public long Id { get; set; }
+        [JsonProperty("residentId")]
+        public long ResidentId;
+        [JsonProperty("residentName")]
+        public string ResidentName;
         [JsonProperty("amount")]
         public decimal Amount { get; set; }
         [JsonProperty("date")]
-        public DateTime Date { get; set; }
+        public DateTime TransactionDate { get; set; }
         [JsonProperty("note")]
         public string Note { get; set; }
         [JsonProperty("status")]
