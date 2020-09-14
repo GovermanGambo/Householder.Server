@@ -1,8 +1,8 @@
 SELECT e.id, 
-       r.id AS resident_id, 
-       r.name AS resident_name, 
+       r.id AS residentId, 
+       r.name AS residentName, 
        e.amount, 
-       e.transaction_date, 
+       e.transaction_date AS transactionDate,  
        e.note, 
        (e.status_id - 1) AS status
 FROM `expense` e 
