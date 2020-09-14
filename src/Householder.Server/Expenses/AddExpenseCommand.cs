@@ -11,6 +11,6 @@ namespace Householder.Server.Expenses
         public decimal Amount { get; set; }
         public DateTime TransactionDate { get; set; }
         public string Note { get; set; }
-        public ExpenseStatus Status { get; set; }
+        public int Status { get; set; }
     }
 }

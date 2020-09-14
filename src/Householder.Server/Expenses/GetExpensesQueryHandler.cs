@@ -22,7 +22,25 @@ namespace Householder.Server.Expenses
 
         public async Task<IEnumerable<Expense>> HandleAsync(GetExpensesQuery query, CancellationToken cancellationToken)
         {
-            var results = await dbConnection.ReadAsync<Expense>(sqlProvider.GetExpenses, query);
+            string queryString;
+            if (query.ResidentId != null && query.Status != null)
+            {
+                queryString = sqlProvider.GetExpensesByResidentAndStatus;
+            }
+            else if (query.ResidentId != null)
+            {
+                queryString = sqlProvider.GetExpensesByResident;
+            }
+            else if (query.Status != null)
+            {
+                queryString = sqlProvider.GetExpensesByStatus;
+            }
+            else
+            {
+                queryString = sqlProvider.GetExpenses;
+            }
+
+            var results = await dbConnection.ReadAsync<Expense>(queryString, query);
 
             return results;
         }

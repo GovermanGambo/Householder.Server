@@ -16,6 +16,6 @@ namespace Householder.Server.Models
         [JsonProperty("note")]
         public string Note { get; set; }
         [JsonProperty("status")]
-        public ExpenseStatus Status { get; set; }
+        public int Status { get; set; }
     }
 }

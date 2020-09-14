@@ -1,1 +1,1 @@
-SELECT id, name FROM `resident` WHERE id=@id;
+SELECT id, name FROM `resident` WHERE id=@id LIMIT 1;

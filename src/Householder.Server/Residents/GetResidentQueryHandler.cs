@@ -24,7 +24,7 @@ namespace Householder.Server.Residents
 
         public async Task<Resident> HandleAsync(GetResidentQuery query, CancellationToken cancellationToken = default)
         {
-            var results = await dbConnection.ReadAsync<Resident>(sqlProvider.GetResidents);
+            var results = await dbConnection.ReadAsync<Resident>(sqlProvider.GetResident, query);
             
             return results.SingleOrDefault();
         }

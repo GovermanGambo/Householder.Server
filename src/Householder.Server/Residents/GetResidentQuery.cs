@@ -6,5 +6,6 @@ namespace Householder.Server.Residents
 {
     public class GetResidentQuery : IQuery<Resident>
     {
+        public long Id { get; set; }
     }
 }

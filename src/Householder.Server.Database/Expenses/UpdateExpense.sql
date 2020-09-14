@@ -4,6 +4,6 @@ SET
     amount = @amount, 
     transaction_date = @transactionDate, 
     note = @note,
-    status_id = @status
+    status_id = (@status + 1)
 WHERE 
     id = @id

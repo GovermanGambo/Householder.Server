@@ -40,7 +40,7 @@ namespace Householder.Server.Host.Residents
         {
             await commandProcessor.ExecuteAsync(command);
 
-            return Created(nameof(GetResident), new { command.Id});   
+            return Created(nameof(GetResident), new { command.Id });   
         }
 
         [HttpGet("{id}")]

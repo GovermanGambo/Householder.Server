@@ -22,7 +22,7 @@ namespace Householder.Server.Expenses
 
         public async Task<Expense> HandleAsync(GetExpenseQuery query, CancellationToken cancellationToken)
         {
-            var results = await dbConnection.ReadAsync<Expense>(sqlProvider.GetExpenses, query);
+            var results = await dbConnection.ReadAsync<Expense>(sqlProvider.GetExpense, query);
 
             return results.SingleOrDefault();
         }
