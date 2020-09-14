@@ -9,14 +9,14 @@ namespace Householder.Server.Services
     {
         private readonly List<Resident> residents;
         private readonly int residentCount;
-        private Dictionary<Resident, double> expensesPerResident;
+        private Dictionary<Resident, decimal> expensesPerResident;
         private List<Expense> expenses;
-        private double totalAmount;
+        private decimal totalAmount;
 
         public SettlementBuilder(List<Resident> residents)
         {
             expenses = new List<Expense>();
-            expensesPerResident = new Dictionary<Resident, double>();
+            expensesPerResident = new Dictionary<Resident, decimal>();
             this.residents = residents;
 
             residentCount = residents.Count;
@@ -71,7 +71,7 @@ namespace Householder.Server.Services
                         var credit = expensesPerResident[creditor];
                         if (credit < 0 && debt != 0)
                         {
-                            double toPay = Math.Min(Math.Abs(credit), debt);
+                            decimal toPay = Math.Min(Math.Abs(credit), debt);
                             results.Add(new Settlement(creditor, debtor, toPay, SettlementStatus.Pending));
                             expensesPerResident[creditor] += toPay;
                             expensesPerResident[debtor] -= toPay;
@@ -81,31 +81,6 @@ namespace Householder.Server.Services
             }
 
             return results;
-        }
-
-        public static void Main(string[] args)
-        {
-            List<Resident> residents = new List<Resident> 
-            {
-                new Resident("A"),
-                new Resident("B"),
-                new Resident("C")
-            };
-
-            SettlementBuilder sb = new SettlementBuilder(residents);
-
-            sb.AddExpenses(new List<Expense>
-            {
-                new Expense(residents[0], 250, DateTime.Now, "help", ExpenseStatus.InProgress),
-                new Expense(residents[1], 50, DateTime.Now, "help", ExpenseStatus.InProgress),
-            });
-
-            var settlements = sb.Build();
-
-            foreach(var s in settlements)
-            {
-                Console.WriteLine($"{s.Debtor.Name} owes {s.Creditor.Name} {s.Amount}");
-            }
         }
     }
 }

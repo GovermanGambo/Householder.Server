@@ -22,7 +22,7 @@ namespace Householder.Server.Residents
         {
             await dbConnection.ExecuteAsync(sqlProvider.InsertResident, command);
 
-            command.Id = await dbConnection.ExecuteScalarAsync<long>(sqlProvider.GetResidentId, new { command.Name });
+            command.Id = await dbConnection.ExecuteScalarAsync<long>(sqlProvider.GetLastInsertId);
         }
     }
 }

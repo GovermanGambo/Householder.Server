@@ -6,37 +6,16 @@ namespace Householder.Server.Models
     public class Expense
     {
         [JsonProperty("id")]
-        public int ID { get; }
+        public int ID { get; set; }
         [JsonProperty("payee")]
-        public Resident Payee { get; }
+        public Resident Payee { get; set; }
         [JsonProperty("amount")]
-        public double Amount { get; }
+        public decimal Amount { get; set; }
         [JsonProperty("date")]
-        public DateTime Date { get; }
+        public DateTime Date { get; set; }
         [JsonProperty("note")]
-        public string Note { get; }
+        public string Note { get; set; }
         [JsonProperty("status")]
-        public ExpenseStatus Status { get; }
-
-        public Expense(Resident payee, double amount, DateTime date, string note, ExpenseStatus status)
-        {
-            ID = -1;
-            Payee = payee;
-            Amount = amount;
-            Date = date;
-            Note = note;
-            Status = status;
-        }
-
-        [JsonConstructor]
-        public Expense(int id, Resident payee, double amount, DateTime date, string note, ExpenseStatus status)
-        {
-            ID = id;
-            Payee = payee;
-            Amount = amount;
-            Date = date;
-            Note = note;
-            Status = status;
-        }
+        public ExpenseStatus Status { get; set; }
     }
 }

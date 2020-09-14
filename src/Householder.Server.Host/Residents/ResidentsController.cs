@@ -2,12 +2,11 @@ using CQRS.Command.Abstractions;
 using CQRS.Query.Abstractions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Householder.Server.Commands;
-using Householder.Server.Models;
-using Householder.Server.Queries;
+using Householder.Server.Residents;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Householder.Server.Models;
 
 namespace Householder.Server.Host.Residents
 {
@@ -16,10 +15,10 @@ namespace Householder.Server.Host.Residents
     public class ResidentsController : ControllerBase
     {
         private readonly ILogger<ResidentsController> logger;
-        private readonly IQueryProcessor queryProcessor;
-        private readonly ICommandProcessor commandProcessor;
+        private readonly IQueryExecutor queryProcessor;
+        private readonly ICommandExecutor commandProcessor;
 
-        public ResidentsController(IQueryProcessor queryProcessor, ICommandProcessor commandProcessor, ILogger<ResidentsController> logger)
+        public ResidentsController(IQueryExecutor queryProcessor, ICommandExecutor commandProcessor, ILogger<ResidentsController> logger)
         {
             this.commandProcessor = commandProcessor;
             this.queryProcessor = queryProcessor;
@@ -28,21 +27,18 @@ namespace Householder.Server.Host.Residents
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<Resident>>> GetResidents()
+        public async Task<ActionResult<IEnumerable<Resident>>> GetResidents([FromQuery] GetResidentsQuery query)
         {
-            var query = new GetAllResidentsQuery();
-            var results = await queryProcessor.ProcessAsync(query);
+            var results = await queryProcessor.ExecuteAsync(query);
 
             return Ok(results);
         }
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status409Conflict)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<object>> AddResident(Householder.Server.Residents.AddResidentCommand command)
+        public async Task<ActionResult<object>> AddResident([FromBody] AddResidentCommand command)
         {
-            await commandProcessor.ProcessAsync(command);
+            await commandProcessor.ExecuteAsync(command);
 
             return Created(nameof(GetResident), new { command.Id});   
         }
@@ -50,10 +46,9 @@ namespace Householder.Server.Host.Residents
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Resident>> GetResident(int id)
+        public async Task<ActionResult<Resident>> GetResident([FromRoute] GetResidentQuery query)
         {
-            var query = new GetResidentQuery(id);
-            var result = await queryProcessor.ProcessAsync(query);
+            var result = await queryProcessor.ExecuteAsync(query);
 
             if (result != null)
             {
@@ -63,6 +58,7 @@ namespace Householder.Server.Host.Residents
             {
                 return NotFound();
             }
+            
         }
     }
 }
