@@ -12,5 +12,6 @@ namespace Householder.Server.Database
         string GetExpenses { get; }
         string InsertExpense { get; }
         string UpdateExpense { get; }
+        string DeleteExpense { get; }
     }
 }

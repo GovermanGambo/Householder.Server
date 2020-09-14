@@ -59,5 +59,30 @@ namespace Householder.Server.Host.Expenses
 
             return Created(nameof(GetExpense), new { command.Id });  
         }
+
+        [HttpPatch("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> PatchExpense([FromBodyAndRoute] UpdateExpenseCommand command)
+        {
+            await commandExecutor.ExecuteAsync(command);
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> DeleteExpense([FromRoute] DeleteExpenseCommand command)
+        {
+            await commandExecutor.ExecuteAsync(command);
+
+            if (command.RowsAffected == 1)
+            {
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
     }
 }
