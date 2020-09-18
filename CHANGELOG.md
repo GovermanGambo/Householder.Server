@@ -2,11 +2,14 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+<<<<<<< HEAD
 ### Version 0.6.0, 2020-09-18
  - Refactored entire project to be more structured and layered
  - Added endpoint for getting settlements
  - Added endpoint for creating new reconciliation
 
+=======
+>>>>>>> 380404accaec02c5ae601e4ff10cfa97b889e32c
 ### Version 0.5.0, 2020-09-10
  - Added endpoints for posting and retrieving residents
  - Added endpoints for getting expenses per resident
