@@ -1,0 +1,1 @@
+SELECT `id` FROM `resident` WHERE `name`=@name LIMIT 1;

@@ -10,6 +10,7 @@ namespace Householder.Server.DataAccess
         public MySqlDatabase(string connectionString)
         {
             Connection = new MySqlConnection(connectionString);
+            Connection.Open();
         }
 
         public void Dispose() => Connection.Dispose();

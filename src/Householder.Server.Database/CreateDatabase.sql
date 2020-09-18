@@ -7,7 +7,7 @@ DROP TABLE expense;
 DROP TABLE settlement_status;
 DROP TABLE settlement;
 
-SET FOREIGN_KEY_CHECKS=0;
+SET FOREIGN_KEY_CHECKS=1;
 
 CREATE TABLE resident
 (
