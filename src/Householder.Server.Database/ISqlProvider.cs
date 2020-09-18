@@ -22,5 +22,7 @@ namespace Householder.Server.Database
         string UpdateSettlementStatus { get; }
         string InsertReconciliation { get; }
         string UpdateExpenseStatus { get; }
+        string GetReconciliations { get; }
+        string GetSettlementsByReconciliationId { get; }
     }
 }

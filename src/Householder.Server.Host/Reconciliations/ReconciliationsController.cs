@@ -31,9 +31,18 @@ namespace Householder.Server.Host.Reconciliations
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status304NotModified)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult<long>> InsertReconciliation([FromBody] InsertReconciliationCommand command)
         {
+            // Get Expenses
+            var expenseQuery = new GetExpensesQuery { Status = 0 };
+            var expenses = await queryProcessor.ExecuteAsync(expenseQuery);
+
+            if (expenses.Count() == 0)
+            {
+                return NoContent();
+            }
+
             await commandProcessor.ExecuteAsync(command);
             var reconciliationId = command.Id;
 
@@ -43,10 +52,6 @@ namespace Householder.Server.Host.Reconciliations
             // Get Residents
             var residentsQuery = new GetResidentsQuery();
             var residents = await queryProcessor.ExecuteAsync(residentsQuery);
-
-            // Get Expenses
-            var expenseQuery = new GetExpensesQuery { Status = 0 };
-            var expenses = await queryProcessor.ExecuteAsync(expenseQuery);
 
             // Build settlements
             var settlementBuilder = new SettlementBuilder(reconciliationId, residents);
@@ -67,6 +72,22 @@ namespace Householder.Server.Host.Reconciliations
             }
 
             return Ok();
+        }
+
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<ReconciliationWithSettlementsDTO>>> GetReconciliations([FromRoute] GetReconciliationsQuery query)
+        {
+            var results = await queryProcessor.ExecuteAsync(query);
+
+            foreach (var reconciliation in results)
+            {
+                var settlementQuery = new GetSettlementsByReconciliationIdQuery { ReconciliationId = reconciliation.Id };
+                var settlements = await queryProcessor.ExecuteAsync(settlementQuery);
+                reconciliation.Settlements = settlements;
+            }
+
+            return Ok(results);
         }
     }
 }
