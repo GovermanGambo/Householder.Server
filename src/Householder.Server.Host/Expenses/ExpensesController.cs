@@ -62,10 +62,20 @@ namespace Householder.Server.Host.Expenses
 
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> PatchExpense([FromBodyAndRoute] UpdateExpenseCommand command)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> UpdateExpense([FromBodyAndRoute] UpdateExpenseCommand command)
         {
             await commandExecutor.ExecuteAsync(command);
-            return Ok();
+            var rowsAffected = command.RowsAffected;
+            
+            if (rowsAffected > 0)
+            {
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         [HttpDelete("{id}")]

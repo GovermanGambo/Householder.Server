@@ -3,27 +3,29 @@ using Householder.Server.Models;
 using System.Collections.Generic;
 using System;
 
-namespace Householder.Server.Services
+namespace Householder.Server.Settlements
 {
     public class SettlementBuilder
     {
-        private readonly List<Resident> residents;
+        private readonly long reconciliationId;
+        private readonly List<long> residents;
         private readonly int residentCount;
-        private Dictionary<Resident, decimal> expensesPerResident;
+        private Dictionary<long, decimal> expensesPerResident;
         private List<Expense> expenses;
         private decimal totalAmount;
 
-        public SettlementBuilder(List<Resident> residents)
+        public SettlementBuilder(long reconciliationId, IEnumerable<Resident> residents)
         {
+            this.reconciliationId = reconciliationId;
             expenses = new List<Expense>();
-            expensesPerResident = new Dictionary<Resident, decimal>();
-            this.residents = residents;
+            expensesPerResident = new Dictionary<long, decimal>();
+            this.residents = residents.Select(r => r.Id).ToList();
 
-            residentCount = residents.Count;
+            residentCount = this.residents.Count;
 
             foreach(Resident r in residents)
             {
-                expensesPerResident.Add(r, 0);
+                expensesPerResident.Add(r.Id, 0);
             }
         }
 
@@ -32,12 +34,12 @@ namespace Householder.Server.Services
             expenses.Add(expense);
             totalAmount += expense.Amount;
             
-            var resident = new Resident { Id = expense.ResidentId, Name = expense.ResidentName };
+            var residentId = expense.ResidentId;
 
-            expensesPerResident[resident] += expense.Amount;
+            expensesPerResident[residentId] += expense.Amount;
         }
 
-        public void AddExpenses(List<Expense> expenses)
+        public void AddExpenses(IEnumerable<Expense> expenses)
         {
             foreach (Expense e in expenses)
             {
@@ -45,16 +47,16 @@ namespace Householder.Server.Services
             }
         }
 
-        public IEnumerable<Settlement> Build()
+        public IEnumerable<InsertSettlementCommand> Build()
         {
-            List<Settlement> results = new List<Settlement>();
+            List<InsertSettlementCommand> results = new List<InsertSettlementCommand>();
 
-            foreach (Resident resident in residents)
+            foreach (long residentId in residents)
             {
-                var spentAmount = expensesPerResident[resident];
+                var spentAmount = expensesPerResident[residentId];
                 var outstanding = (totalAmount / residentCount) - spentAmount;
 
-                expensesPerResident[resident] = outstanding;
+                expensesPerResident[residentId] = outstanding;
             }
 
             expensesPerResident = expensesPerResident.OrderBy(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
@@ -72,7 +74,13 @@ namespace Householder.Server.Services
                         if (credit < 0 && debt != 0)
                         {
                             decimal toPay = Math.Min(Math.Abs(credit), debt);
-                            results.Add(new Settlement(creditor, debtor, toPay, SettlementStatus.Pending));
+                            results.Add(new InsertSettlementCommand{
+                                ReconciliationId = reconciliationId,
+                                CreditorId = creditor,
+                                DebtorId = debtor,
+                                Amount = debt,
+                                StatusId = 0
+                            });
                             expensesPerResident[creditor] += toPay;
                             expensesPerResident[debtor] -= toPay;
                         }

@@ -16,5 +16,11 @@ namespace Householder.Server.Database
         string InsertExpense { get; }
         string UpdateExpense { get; }
         string DeleteExpense { get; }
+        string GetSettlements { get; }
+        string GetSettlementById { get; }
+        string InsertSettlement { get; }
+        string UpdateSettlementStatus { get; }
+        string InsertReconciliation { get; }
+        string UpdateExpenseStatus { get; }
     }
 }

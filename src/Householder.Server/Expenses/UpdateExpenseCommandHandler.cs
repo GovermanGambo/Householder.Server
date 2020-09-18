@@ -22,7 +22,8 @@ namespace Householder.Server.Expenses
 
         public async Task HandleAsync(UpdateExpenseCommand command, CancellationToken cancellationToken = default)
         {
-            await dbConnection.ExecuteAsync(sqlProvider.UpdateExpense, command);
+            var rowsAffected = await dbConnection.ExecuteAsync(sqlProvider.UpdateExpense, command);
+            command.RowsAffected = rowsAffected;
         }
     }
 }
