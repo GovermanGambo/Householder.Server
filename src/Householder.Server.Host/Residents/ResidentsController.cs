@@ -6,7 +6,6 @@ using Householder.Server.Residents;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Householder.Server.Models;
 
 namespace Householder.Server.Host.Residents
 {
@@ -27,7 +26,7 @@ namespace Householder.Server.Host.Residents
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<Resident>>> GetResidents([FromQuery] GetResidentsQuery query)
+        public async Task<ActionResult<IEnumerable<ResidentDTO>>> GetResidents([FromQuery] GetResidentsQuery query)
         {
             var results = await queryProcessor.ExecuteAsync(query);
 
@@ -46,7 +45,7 @@ namespace Householder.Server.Host.Residents
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Resident>> GetResident([FromRoute] GetResidentQuery query)
+        public async Task<ActionResult<ResidentDTO>> GetResident([FromRoute] GetResidentQuery query)
         {
             var result = await queryProcessor.ExecuteAsync(query);
 

@@ -1,8 +1,8 @@
 using System.Linq;
-using Householder.Server.Models;
 using System.Collections.Generic;
 using System;
 using Householder.Server.Expenses;
+using Householder.Server.Residents;
 
 namespace Householder.Server.Settlements
 {
@@ -15,7 +15,7 @@ namespace Householder.Server.Settlements
         private List<ExpenseDTO> expenses;
         private decimal totalAmount;
 
-        public SettlementBuilder(long reconciliationId, IEnumerable<Resident> residents)
+        public SettlementBuilder(long reconciliationId, IEnumerable<ResidentDTO> residents)
         {
             this.reconciliationId = reconciliationId;
             expenses = new List<ExpenseDTO>();
@@ -24,7 +24,7 @@ namespace Householder.Server.Settlements
 
             residentCount = this.residents.Count;
 
-            foreach(Resident r in residents)
+            foreach(ResidentDTO r in residents)
             {
                 expensesPerResident.Add(r.Id, 0);
             }

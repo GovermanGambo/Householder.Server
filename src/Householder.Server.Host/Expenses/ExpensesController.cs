@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using CQRS.Command.Abstractions;
 using CQRS.Query.Abstractions;
-using Householder.Server.Models;
 using Householder.Server.Expenses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

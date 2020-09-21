@@ -1,4 +1,4 @@
-namespace Householder.Server.Models 
+namespace Householder.Server.Expenses 
 {
     public enum ExpenseStatus
     {
