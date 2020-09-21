@@ -6,6 +6,7 @@ DROP TABLE expense_status;
 DROP TABLE expense;
 DROP TABLE settlement_status;
 DROP TABLE settlement;
+DROP TABLE user;
 
 SET FOREIGN_KEY_CHECKS=1;
 

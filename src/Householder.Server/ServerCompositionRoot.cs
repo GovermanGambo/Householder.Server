@@ -1,4 +1,7 @@
+using CQRS.Command.Abstractions;
 using CQRS.LightInject;
+using Householder.Server.Authentication;
+using Householder.Server.Users;
 using LightInject;
 
 namespace Householder.Server
@@ -8,7 +11,10 @@ namespace Householder.Server
         public void Compose(IServiceRegistry serviceRegistry)
         {
             serviceRegistry.RegisterCommandHandlers()
-                .RegisterQueryHandlers();
+                .RegisterQueryHandlers()
+                .RegisterSingleton<IPasswordManager, PasswordManager>()
+                .RegisterSingleton<IPasswordPolicy, PasswordPolicy>()
+                .Decorate<ICommandHandler<RegisterUserCommand>, RegisterUserValidator>();
         }
     }
 }
