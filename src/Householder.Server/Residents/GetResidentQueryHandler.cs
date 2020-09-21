@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading;
@@ -6,11 +5,10 @@ using System.Threading.Tasks;
 using CQRS.Query.Abstractions;
 using DbReader;
 using Householder.Server.Database;
-using Householder.Server.Models;
 
 namespace Householder.Server.Residents
 {
-    public class GetResidentQueryHandler : IQueryHandler<GetResidentQuery, Resident>
+    public class GetResidentQueryHandler : IQueryHandler<GetResidentQuery, ResidentDTO>
     {
         private readonly IDbConnection dbConnection;
 
@@ -22,15 +20,15 @@ namespace Householder.Server.Residents
             this.sqlProvider = sqlProvider;
         }
 
-        public async Task<Resident> HandleAsync(GetResidentQuery query, CancellationToken cancellationToken = default)
+        public async Task<ResidentDTO> HandleAsync(GetResidentQuery query, CancellationToken cancellationToken = default)
         {
-            var results = await dbConnection.ReadAsync<Resident>(sqlProvider.GetResident, query);
+            var results = await dbConnection.ReadAsync<ResidentDTO>(sqlProvider.GetResident, query);
             
             return results.SingleOrDefault();
         }
     }
 
-    public class GetResidentQuery : IQuery<Resident>
+    public class GetResidentQuery : IQuery<ResidentDTO>
     {
         public long Id { get; set; }
     }

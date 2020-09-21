@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using CQRS.Query.Abstractions;
 using DbReader;
 using Householder.Server.Database;
-using Householder.Server.Models;
 
 namespace Householder.Server.Settlements
 {

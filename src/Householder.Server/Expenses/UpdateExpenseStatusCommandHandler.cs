@@ -4,8 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using CQRS.Command.Abstractions;
 using Householder.Server.Database;
-using Householder.Server.Models;
-using MySqlConnector;
 
 namespace Householder.Server.Expenses
 {

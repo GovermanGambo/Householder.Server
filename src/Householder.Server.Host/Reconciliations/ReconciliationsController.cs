@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using CQRS.Command.Abstractions;
 using CQRS.Query.Abstractions;
 using Householder.Server.Expenses;
-using Householder.Server.Models;
 using Householder.Server.Reconciliations;
 using Householder.Server.Residents;
 using Householder.Server.Settlements;
