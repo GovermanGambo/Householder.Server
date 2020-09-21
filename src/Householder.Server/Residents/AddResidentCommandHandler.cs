@@ -25,4 +25,10 @@ namespace Householder.Server.Residents
             command.Id = await dbConnection.ExecuteScalarAsync<long>(sqlProvider.GetLastInsertId);
         }
     }
+
+    public class AddResidentCommand
+    {
+        public long Id { get; set; }
+        public string Name { get; set; }
+    }
 }
