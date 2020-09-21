@@ -45,7 +45,7 @@ namespace Householder.Server.Host.Residents
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ResidentDTO>> GetResident([FromRoute] GetResidentQuery query)
+        public async Task<ActionResult<ResidentDTO>> GetResident([FromRoute] GetResidentByIdQuery query)
         {
             var result = await queryProcessor.ExecuteAsync(query);
 
