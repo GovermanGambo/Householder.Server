@@ -1,9 +1,8 @@
-using Newtonsoft.Json;
 using System;
 
-namespace Householder.Server.Models
+namespace Householder.Server.Expenses
 {
-    public class Expense
+    public class ExpenseDTO
     {
         public long Id { get; set; }
         public long ResidentId { get; set; }

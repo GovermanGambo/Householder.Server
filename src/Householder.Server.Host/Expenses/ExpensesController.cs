@@ -27,7 +27,7 @@ namespace Householder.Server.Host.Expenses
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<Expense>>> GetExpenses([FromQuery] GetExpensesQuery query)
+        public async Task<ActionResult<IEnumerable<ExpenseDTO>>> GetExpenses([FromQuery] GetExpensesQuery query)
         {
             var results = await queryExecutor.ExecuteAsync(query);
 
@@ -37,7 +37,7 @@ namespace Householder.Server.Host.Expenses
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Expense>> GetExpense([FromRoute] GetExpenseQuery query)
+        public async Task<ActionResult<ExpenseDTO>> GetExpense([FromRoute] GetExpenseQuery query)
         {
             var result = await queryExecutor.ExecuteAsync(query);
 

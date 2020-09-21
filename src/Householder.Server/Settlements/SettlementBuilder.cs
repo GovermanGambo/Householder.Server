@@ -2,6 +2,7 @@ using System.Linq;
 using Householder.Server.Models;
 using System.Collections.Generic;
 using System;
+using Householder.Server.Expenses;
 
 namespace Householder.Server.Settlements
 {
@@ -11,13 +12,13 @@ namespace Householder.Server.Settlements
         private readonly List<long> residents;
         private readonly int residentCount;
         private Dictionary<long, decimal> expensesPerResident;
-        private List<Expense> expenses;
+        private List<ExpenseDTO> expenses;
         private decimal totalAmount;
 
         public SettlementBuilder(long reconciliationId, IEnumerable<Resident> residents)
         {
             this.reconciliationId = reconciliationId;
-            expenses = new List<Expense>();
+            expenses = new List<ExpenseDTO>();
             expensesPerResident = new Dictionary<long, decimal>();
             this.residents = residents.Select(r => r.Id).ToList();
 
@@ -29,7 +30,7 @@ namespace Householder.Server.Settlements
             }
         }
 
-        public void AddExpense(Expense expense)
+        public void AddExpense(ExpenseDTO expense)
         {
             expenses.Add(expense);
             totalAmount += expense.Amount;
@@ -39,9 +40,9 @@ namespace Householder.Server.Settlements
             expensesPerResident[residentId] += expense.Amount;
         }
 
-        public void AddExpenses(IEnumerable<Expense> expenses)
+        public void AddExpenses(IEnumerable<ExpenseDTO> expenses)
         {
-            foreach (Expense e in expenses)
+            foreach (ExpenseDTO e in expenses)
             {
                 AddExpense(e);
             }
