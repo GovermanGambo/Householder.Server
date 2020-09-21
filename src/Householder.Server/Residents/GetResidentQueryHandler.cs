@@ -29,4 +29,9 @@ namespace Householder.Server.Residents
             return results.SingleOrDefault();
         }
     }
+
+    public class GetResidentQuery : IQuery<Resident>
+    {
+        public long Id { get; set; }
+    }
 }

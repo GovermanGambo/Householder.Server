@@ -28,4 +28,8 @@ namespace Householder.Server.Residents
             return results;
         }
     }
+
+    public class GetResidentsQuery : IQuery<IEnumerable<Resident>>
+    {
+    }
 }
