@@ -9,7 +9,7 @@ using Householder.Server.Models;
 
 namespace Householder.Server.Expenses
 {
-    public class GetExpensesQueryHandler : IQueryHandler<GetExpensesQuery, IEnumerable<Expense>>
+    public class GetExpensesQueryHandler : IQueryHandler<GetExpensesQuery, IEnumerable<ExpenseDTO>>
     {
         private IDbConnection dbConnection;
         private ISqlProvider sqlProvider;
@@ -20,7 +20,7 @@ namespace Householder.Server.Expenses
             this.sqlProvider = sqlProvider;
         }
 
-        public async Task<IEnumerable<Expense>> HandleAsync(GetExpensesQuery query, CancellationToken cancellationToken)
+        public async Task<IEnumerable<ExpenseDTO>> HandleAsync(GetExpensesQuery query, CancellationToken cancellationToken)
         {
             string queryString;
             if (query.ResidentId != null && query.Status != null)
@@ -40,13 +40,13 @@ namespace Householder.Server.Expenses
                 queryString = sqlProvider.GetExpenses;
             }
 
-            var results = await dbConnection.ReadAsync<Expense>(queryString, query);
+            var results = await dbConnection.ReadAsync<ExpenseDTO>(queryString, query);
 
             return results;
         }
     }
 
-    public class GetExpensesQuery : IQuery<IEnumerable<Expense>>
+    public class GetExpensesQuery : IQuery<IEnumerable<ExpenseDTO>>
     {
         public int? Limit { get; set; }
         public int? Status { get; set; }

@@ -4,12 +4,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using CQRS.Query.Abstractions;
 using Householder.Server.Database;
-using Householder.Server.Models;
 using System.Linq;
 
 namespace Householder.Server.Expenses
 {
-    public class GetExpenseQueryHandler : IQueryHandler<GetExpenseQuery, Expense>
+    public class GetExpenseQueryHandler : IQueryHandler<GetExpenseQuery, ExpenseDTO>
     {
         private IDbConnection dbConnection;
         private ISqlProvider sqlProvider;
@@ -20,15 +19,15 @@ namespace Householder.Server.Expenses
             this.sqlProvider = sqlProvider;
         }
 
-        public async Task<Expense> HandleAsync(GetExpenseQuery query, CancellationToken cancellationToken)
+        public async Task<ExpenseDTO> HandleAsync(GetExpenseQuery query, CancellationToken cancellationToken)
         {
-            var results = await dbConnection.ReadAsync<Expense>(sqlProvider.GetExpense, query);
+            var results = await dbConnection.ReadAsync<ExpenseDTO>(sqlProvider.GetExpense, query);
 
             return results.SingleOrDefault();
         }
     }
 
-    public class GetExpenseQuery : IQuery<Expense>
+    public class GetExpenseQuery : IQuery<ExpenseDTO>
     {
         public long Id { get; set; }
     }
