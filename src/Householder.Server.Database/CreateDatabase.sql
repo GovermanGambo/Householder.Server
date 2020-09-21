@@ -25,7 +25,6 @@ CREATE TABLE user
     is_admin BIT NOT NULL DEFAULT 0,
     register_date DATETIME NOT NULL,
     hashed_password TEXT NOT NULL,
-    salt BINARY(64) NOT NULL,
     PRIMARY KEY (id)
 );
 
