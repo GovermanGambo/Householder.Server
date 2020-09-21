@@ -5,12 +5,11 @@ namespace Householder.Server.Database
         string CreateDatabase { get; }
         string GetLastInsertId { get; }
         string InsertResident { get; }
-        string GetResident { get; }
+        string GetResidentById { get; }
         string GetResidents { get; }
         string GetExpensesByResident { get; }
         string GetExpensesByStatus { get; }
         string GetExpensesByResidentAndStatus { get; }
-        string GetResidentId { get; }
         string GetExpense { get; }
         string GetExpenses { get; }
         string InsertExpense { get; }

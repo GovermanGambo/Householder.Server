@@ -8,27 +8,27 @@ using Householder.Server.Database;
 
 namespace Householder.Server.Residents
 {
-    public class GetResidentQueryHandler : IQueryHandler<GetResidentQuery, ResidentDTO>
+    public class GetResidentByIdQueryHandler : IQueryHandler<GetResidentByIdQuery, ResidentDTO>
     {
         private readonly IDbConnection dbConnection;
 
         private readonly ISqlProvider sqlProvider;
 
-        public GetResidentQueryHandler(IDbConnection dbConnection, ISqlProvider sqlProvider)
+        public GetResidentByIdQueryHandler(IDbConnection dbConnection, ISqlProvider sqlProvider)
         {
             this.dbConnection = dbConnection;
             this.sqlProvider = sqlProvider;
         }
 
-        public async Task<ResidentDTO> HandleAsync(GetResidentQuery query, CancellationToken cancellationToken = default)
+        public async Task<ResidentDTO> HandleAsync(GetResidentByIdQuery query, CancellationToken cancellationToken = default)
         {
-            var results = await dbConnection.ReadAsync<ResidentDTO>(sqlProvider.GetResident, query);
+            var results = await dbConnection.ReadAsync<ResidentDTO>(sqlProvider.GetResidentById, query);
             
             return results.SingleOrDefault();
         }
     }
 
-    public class GetResidentQuery : IQuery<ResidentDTO>
+    public class GetResidentByIdQuery : IQuery<ResidentDTO>
     {
         public long Id { get; set; }
     }
