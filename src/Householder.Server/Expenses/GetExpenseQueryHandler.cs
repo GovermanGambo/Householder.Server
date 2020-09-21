@@ -27,4 +27,9 @@ namespace Householder.Server.Expenses
             return results.SingleOrDefault();
         }
     }
+
+    public class GetExpenseQuery : IQuery<Expense>
+    {
+        public long Id { get; set; }
+    }
 }

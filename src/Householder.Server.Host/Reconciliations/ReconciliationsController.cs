@@ -89,5 +89,26 @@ namespace Householder.Server.Host.Reconciliations
 
             return Ok(results);
         }
+
+        [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<ReconciliationWithSettlementsDTO>> GetReconciliationById([FromRoute] GetReconciliationByIdQuery query)
+        {
+            var result = await queryProcessor.ExecuteAsync(query);
+
+            if (result != null)
+            {
+                var settlementQuery = new GetSettlementsByReconciliationIdQuery { ReconciliationId = result.Id };
+                var settlements = await queryProcessor.ExecuteAsync(settlementQuery);
+                result.Settlements = settlements;
+                return Ok(result);
+            }
+            else
+            {
+                return NotFound();
+            }
+            
+        }
     }
 }

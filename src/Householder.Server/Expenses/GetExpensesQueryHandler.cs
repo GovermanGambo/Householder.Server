@@ -45,4 +45,11 @@ namespace Householder.Server.Expenses
             return results;
         }
     }
+
+    public class GetExpensesQuery : IQuery<IEnumerable<Expense>>
+    {
+        public int? Limit { get; set; }
+        public int? Status { get; set; }
+        public int? ResidentId { get; set; }
+    }
 }
