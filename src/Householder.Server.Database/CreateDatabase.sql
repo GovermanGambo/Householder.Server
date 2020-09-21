@@ -16,6 +16,19 @@ CREATE TABLE resident
     PRIMARY KEY (id)
 );
 
+CREATE TABLE user
+(
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    email TEXT NOT NULL,
+    first_name VARCHAR(20) NOT NULL,
+    last_name VARCHAR(20) NOT NULL,
+    is_admin BIT NOT NULL DEFAULT 0,
+    register_date DATETIME NOT NULL,
+    hashed_password TEXT NOT NULL,
+    salt BINARY(64) NOT NULL,
+    PRIMARY KEY (id)
+);
+
 CREATE TABLE reconciliation
 (
     id INTEGER NOT NULL AUTO_INCREMENT,
