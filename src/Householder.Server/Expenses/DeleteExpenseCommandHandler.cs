@@ -25,4 +25,10 @@ namespace Householder.Server.Expenses
             command.RowsAffected = rowsAffected;
         }
     }
+
+    public class DeleteExpenseCommand
+    {
+        public long Id { get; set; }
+        public int RowsAffected { get; set; }
+    }
 }
