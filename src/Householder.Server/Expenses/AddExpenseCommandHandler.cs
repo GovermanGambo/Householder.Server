@@ -1,7 +1,5 @@
 using CQRS.Command.Abstractions;
 using System.Threading.Tasks;
-using Householder.Server.DataAccess;
-using Householder.Server.Models;
 using MySqlConnector;
 using System.Threading;
 using System.Data;
