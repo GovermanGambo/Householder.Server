@@ -5,6 +5,7 @@ using CQRS.Query.Abstractions;
 using Householder.Server.Expenses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 
 namespace Householder.Server.Host.Expenses
@@ -25,6 +26,7 @@ namespace Householder.Server.Host.Expenses
         }
 
         [HttpGet]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<ExpenseDTO>>> GetExpenses([FromQuery] GetExpensesQuery query)
         {
