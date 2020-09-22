@@ -18,7 +18,7 @@ namespace Householder.Server.Authentication
 
         public bool VerifyPassword(string password, string hashedPassword)
         {
-            return passwordHasher.VerifyHashedPassword(this, password, hashedPassword) == PasswordVerificationResult.Success;
+            return passwordHasher.VerifyHashedPassword(this, hashedPassword, password) == PasswordVerificationResult.Success;
         }
     }
 }
