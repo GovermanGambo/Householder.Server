@@ -10,6 +10,5 @@ namespace Householder.Server.Users
         public string LastName { get; set; }
         public bool IsAdmin { get; set; }
         public DateTime RegisterDate { get; set; }
-        public string HashedPassword { get; set; }
     }
 }

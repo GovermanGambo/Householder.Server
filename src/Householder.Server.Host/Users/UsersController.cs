@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Householder.Server.Users;
 using Householder.Server.Authentication;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Householder.Server.Host.Residents
 {
@@ -47,9 +48,16 @@ namespace Householder.Server.Host.Residents
             {
                 return Unauthorized(new { message = e.Message });
             }
-            
+        }
 
+        [HttpGet]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetAllUsers([FromBody] GetAllUsersQuery query)
+        {
+            var results = await queryProcessor.ExecuteAsync(query);
 
+            return Ok(results);
         }
     }
 }

@@ -5,7 +5,8 @@ namespace Householder.Server.Database
         string CreateDatabase { get; }
         string GetLastInsertId { get; }
         string InsertUser { get; }
-        string GetUserByEmail { get; }
+        string GetUserLoginByEmail { get; }
+        string GetAllUsers { get; }
         string InsertResident { get; }
         string GetResidentById { get; }
         string GetResidents { get; }

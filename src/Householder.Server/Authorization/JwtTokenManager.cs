@@ -16,7 +16,7 @@ namespace Householder.Server.Authorization
             this.configuration = configuration;
         }
         
-        public string GenerateToken(UserDTO userDTO)
+        public string GenerateToken(UserLoginDTO userDTO)
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

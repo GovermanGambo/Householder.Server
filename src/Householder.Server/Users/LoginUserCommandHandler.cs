@@ -23,7 +23,7 @@ namespace Householder.Server.Users
 
         public async Task HandleAsync(LoginUserCommand command, CancellationToken cancellationToken = default)
         {
-            var getUserQuery = new GetUserByEmailQuery { Email = command.Email };
+            var getUserQuery = new GetUserLoginByEmailQuery { Email = command.Email };
             var user = await queryExecutor.ExecuteAsync(getUserQuery);
 
             if (user == null || !passwordManager.VerifyPassword(command.Password, user.HashedPassword))

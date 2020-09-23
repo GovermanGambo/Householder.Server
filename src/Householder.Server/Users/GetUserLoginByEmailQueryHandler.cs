@@ -8,26 +8,26 @@ using Householder.Server.Database;
 
 namespace Householder.Server.Users
 {
-    public class GetUserByEmailQueryHandler : IQueryHandler<GetUserByEmailQuery, UserDTO>
+    public class GetUserLoginByEmailQueryHandler : IQueryHandler<GetUserLoginByEmailQuery, UserLoginDTO>
     {
         private readonly IDbConnection dbConnection;
         private readonly ISqlProvider sqlProvider;
 
-        public GetUserByEmailQueryHandler(IDbConnection dbConnection, ISqlProvider sqlProvider)
+        public GetUserLoginByEmailQueryHandler(IDbConnection dbConnection, ISqlProvider sqlProvider)
         {
             this.dbConnection = dbConnection;
             this.sqlProvider = sqlProvider;
         }
 
-        public async Task<UserDTO> HandleAsync(GetUserByEmailQuery query, CancellationToken cancellationToken = default)
+        public async Task<UserLoginDTO> HandleAsync(GetUserLoginByEmailQuery query, CancellationToken cancellationToken = default)
         {
-            var results = await dbConnection.ReadAsync<UserDTO>(sqlProvider.GetUserByEmail, query);
+            var results = await dbConnection.ReadAsync<UserLoginDTO>(sqlProvider.GetUserLoginByEmail, query);
 
             return results.SingleOrDefault();
         }
     }
 
-    public class GetUserByEmailQuery : IQuery<UserDTO>
+    public class GetUserLoginByEmailQuery : IQuery<UserLoginDTO>
     {
         public string Email { get; set; }
     }

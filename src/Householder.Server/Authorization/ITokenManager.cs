@@ -4,6 +4,6 @@ namespace Householder.Server.Authorization
 {
     public interface ITokenManager
     {
-        string GenerateToken(UserDTO userDTO);
+        string GenerateToken(UserLoginDTO userDTO);
     }
 }
