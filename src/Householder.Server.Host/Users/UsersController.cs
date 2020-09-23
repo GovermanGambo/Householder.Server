@@ -59,5 +59,23 @@ namespace Householder.Server.Host.Residents
 
             return Ok(results);
         }
+
+        [HttpGet("{id}")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> GetUserById([FromRoute] GetUserByIdQuery query)
+        {
+            var result = await queryProcessor.ExecuteAsync(query);
+
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
     }
 }
