@@ -1,1 +1,0 @@
-INSERT INTO `resident` (`name`) VALUES (@name);

@@ -1,7 +1,6 @@
 using CQRS.Command.Abstractions;
 using CQRS.Query.Abstractions;
 using System.Threading.Tasks;
-using Householder.Server.Residents;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -30,9 +29,16 @@ namespace Householder.Server.Host.Residents
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult<object>> RegisterUser([FromBody] RegisterUserCommand command)
         {
-            await commandProcessor.ExecuteAsync(command);
+            try 
+            {
+                await commandProcessor.ExecuteAsync(command);
 
-            return Created("yes", new { command.Id });   
+                return Created("yes", new { command.Id });   
+            }
+            catch (ValidationErrorException e)
+            {
+                return BadRequest(new { message = e.Message });
+            }
         }
 
         [HttpPost("login")]

@@ -4,7 +4,7 @@ namespace Householder.Server.Authentication
 {
     public class ValidationErrorException : Exception
     {
-        public ValidationErrorException(string message)
+        public ValidationErrorException(string message) : base(message)
         {
             
         }

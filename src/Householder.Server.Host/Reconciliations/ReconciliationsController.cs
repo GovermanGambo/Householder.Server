@@ -5,7 +5,6 @@ using CQRS.Command.Abstractions;
 using CQRS.Query.Abstractions;
 using Householder.Server.Expenses;
 using Householder.Server.Reconciliations;
-using Householder.Server.Residents;
 using Householder.Server.Settlements;
 using Householder.Server.Users;
 using Microsoft.AspNetCore.Authorization;

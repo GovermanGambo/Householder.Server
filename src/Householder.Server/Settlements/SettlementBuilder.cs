@@ -2,7 +2,6 @@ using System.Linq;
 using System.Collections.Generic;
 using System;
 using Householder.Server.Expenses;
-using Householder.Server.Residents;
 using Householder.Server.Users;
 
 namespace Householder.Server.Settlements

@@ -1,7 +1,7 @@
 SELECT
     r.id AS id,
     u.id AS creatorId,
-    u.name AS creatorName,
+    u.first_name AS creatorName,
     r.creation_date AS creation_date
 FROM
     reconciliation r

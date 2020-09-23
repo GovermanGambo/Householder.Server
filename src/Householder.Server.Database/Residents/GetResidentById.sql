@@ -1,1 +1,0 @@
-SELECT id, name FROM `resident` WHERE id=@id LIMIT 1;

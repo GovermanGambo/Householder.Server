@@ -1,8 +1,8 @@
 SELECT e.id, 
-       u.id AS userId, 
-       u.name AS userName, 
+       u.id AS payeeId, 
+       u.first_name AS payeeName, 
        e.amount, 
-       e.transactionDate, 
+       e.transaction_date AS transactionDate,  
        e.note, 
        (e.status_id - 1) AS status
 FROM `expense` e 

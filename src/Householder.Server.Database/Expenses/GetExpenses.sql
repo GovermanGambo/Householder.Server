@@ -1,6 +1,6 @@
 SELECT e.id, 
-       u.id AS userId, 
-       u.name AS userName, 
+       u.id AS payeeId, 
+       u.first_name AS payeeName, 
        e.amount, 
        e.transaction_date AS transactionDate,  
        e.note, 
