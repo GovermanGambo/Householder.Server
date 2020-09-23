@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### Version 0.7.0, 2020-09-23
+ - Refactored residents to users
+ - Added endpoint for registering as a user
+ - Added endpoint for logging in as a user
+ - Added authorization to all endpoints except for user login and registration
+ - Added support for JWTToken
+ - Added endpoints for getting users
+
 ### Version 0.6.1, 2020-09-18
  - Refactored CQRS system to only use DTO's instead of common models
  - Added endpoint for getting reconciliations
