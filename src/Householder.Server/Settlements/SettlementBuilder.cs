@@ -3,30 +3,31 @@ using System.Collections.Generic;
 using System;
 using Householder.Server.Expenses;
 using Householder.Server.Residents;
+using Householder.Server.Users;
 
 namespace Householder.Server.Settlements
 {
     public class SettlementBuilder
     {
         private readonly long reconciliationId;
-        private readonly List<long> residents;
-        private readonly int residentCount;
-        private Dictionary<long, decimal> expensesPerResident;
+        private readonly List<long> users;
+        private readonly int userCount;
+        private Dictionary<long, decimal> expensesPerUser;
         private List<ExpenseDTO> expenses;
         private decimal totalAmount;
 
-        public SettlementBuilder(long reconciliationId, IEnumerable<ResidentDTO> residents)
+        public SettlementBuilder(long reconciliationId, IEnumerable<UserDTO> users)
         {
             this.reconciliationId = reconciliationId;
             expenses = new List<ExpenseDTO>();
-            expensesPerResident = new Dictionary<long, decimal>();
-            this.residents = residents.Select(r => r.Id).ToList();
+            expensesPerUser = new Dictionary<long, decimal>();
+            this.users = users.Select(user => user.Id).ToList();
 
-            residentCount = this.residents.Count;
+            userCount = this.users.Count;
 
-            foreach(ResidentDTO r in residents)
+            foreach(var user in users)
             {
-                expensesPerResident.Add(r.Id, 0);
+                expensesPerUser.Add(user.Id, 0);
             }
         }
 
@@ -35,9 +36,9 @@ namespace Householder.Server.Settlements
             expenses.Add(expense);
             totalAmount += expense.Amount;
             
-            var residentId = expense.ResidentId;
+            var payeeId = expense.PayeeId;
 
-            expensesPerResident[residentId] += expense.Amount;
+            expensesPerUser[payeeId] += expense.Amount;
         }
 
         public void AddExpenses(IEnumerable<ExpenseDTO> expenses)
@@ -52,26 +53,26 @@ namespace Householder.Server.Settlements
         {
             List<InsertSettlementCommand> results = new List<InsertSettlementCommand>();
 
-            foreach (long residentId in residents)
+            foreach (long userId in users)
             {
-                var spentAmount = expensesPerResident[residentId];
-                var outstanding = (totalAmount / residentCount) - spentAmount;
+                var spentAmount = expensesPerUser[userId];
+                var outstanding = (totalAmount / userCount) - spentAmount;
 
-                expensesPerResident[residentId] = outstanding;
+                expensesPerUser[userId] = outstanding;
             }
 
-            expensesPerResident = expensesPerResident.OrderBy(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
+            expensesPerUser = expensesPerUser.OrderBy(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
 
-            for (int i = 0; i < expensesPerResident.Count; i++)
+            for (int i = 0; i < expensesPerUser.Count; i++)
             {
-                var debtor = expensesPerResident.ElementAt(i).Key;
-                if (expensesPerResident[debtor] > 0)
+                var debtor = expensesPerUser.ElementAt(i).Key;
+                if (expensesPerUser[debtor] > 0)
                 {
-                    for (int j = 0; j < expensesPerResident.Count; j++)
+                    for (int j = 0; j < expensesPerUser.Count; j++)
                     {
-                        var debt = expensesPerResident[debtor];
-                        var creditor = expensesPerResident.ElementAt(j).Key;
-                        var credit = expensesPerResident[creditor];
+                        var debt = expensesPerUser[debtor];
+                        var creditor = expensesPerUser.ElementAt(j).Key;
+                        var credit = expensesPerUser[creditor];
                         if (credit < 0 && debt != 0)
                         {
                             decimal toPay = Math.Min(Math.Abs(credit), debt);
@@ -82,8 +83,8 @@ namespace Householder.Server.Settlements
                                 Amount = debt,
                                 StatusId = 0
                             });
-                            expensesPerResident[creditor] += toPay;
-                            expensesPerResident[debtor] -= toPay;
+                            expensesPerUser[creditor] += toPay;
+                            expensesPerUser[debtor] -= toPay;
                         }
                     }
                 }

@@ -22,11 +22,11 @@ namespace Householder.Server.Expenses
         public async Task<IEnumerable<ExpenseDTO>> HandleAsync(GetExpensesQuery query, CancellationToken cancellationToken)
         {
             string queryString;
-            if (query.ResidentId != null && query.Status != null)
+            if (query.PayeeId != null && query.Status != null)
             {
                 queryString = sqlProvider.GetExpensesByResidentAndStatus;
             }
-            else if (query.ResidentId != null)
+            else if (query.PayeeId != null)
             {
                 queryString = sqlProvider.GetExpensesByResident;
             }
@@ -49,6 +49,6 @@ namespace Householder.Server.Expenses
     {
         public int? Limit { get; set; }
         public int? Status { get; set; }
-        public int? ResidentId { get; set; }
+        public int? PayeeId { get; set; }
     }
 }

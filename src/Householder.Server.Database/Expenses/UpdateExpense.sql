@@ -1,6 +1,6 @@
 UPDATE expense 
 SET 
-    resident_id = @residentId, 
+    payee_id = @payeeId, 
     amount = @amount, 
     transaction_date = @transactionDate, 
     note = @note,

@@ -31,7 +31,7 @@ namespace Householder.Server.Expenses
     {
         [JsonIgnore]
         public long Id { get; set; }
-        public long ResidentId { get; set; }
+        public long PayeeId { get; set; }
         public double Amount { get; set; }
         public DateTime TransactionDate { get; set; }
         public string Note { get; set; }

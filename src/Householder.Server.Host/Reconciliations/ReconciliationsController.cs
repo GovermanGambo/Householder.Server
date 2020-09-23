@@ -7,6 +7,7 @@ using Householder.Server.Expenses;
 using Householder.Server.Reconciliations;
 using Householder.Server.Residents;
 using Householder.Server.Settlements;
+using Householder.Server.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -47,15 +48,15 @@ namespace Householder.Server.Host.Reconciliations
             await commandProcessor.ExecuteAsync(command);
             var reconciliationId = command.Id;
 
-            // TODO: Put this logic somewhere else?
+            // TODO: Put this logic into dedicated command handlers
             // TODO: All of the below should be one transaction
 
             // Get Residents
-            var residentsQuery = new GetResidentsQuery();
-            var residents = await queryProcessor.ExecuteAsync(residentsQuery);
+            var allUsersQuery = new GetAllUsersQuery();
+            var users = await queryProcessor.ExecuteAsync(allUsersQuery);
 
             // Build settlements
-            var settlementBuilder = new SettlementBuilder(reconciliationId, residents);
+            var settlementBuilder = new SettlementBuilder(reconciliationId, users);
             settlementBuilder.AddExpenses(expenses);
             var settlementCommands = settlementBuilder.Build();
 
