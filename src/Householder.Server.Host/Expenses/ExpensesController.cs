@@ -36,6 +36,7 @@ namespace Householder.Server.Host.Expenses
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ExpenseDTO>> GetExpense([FromRoute] GetExpenseQuery query)
@@ -53,6 +54,7 @@ namespace Householder.Server.Host.Expenses
         }
 
         [HttpPost]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult<long>> AddExpense([FromBody] AddExpenseCommand command)
         {
@@ -62,6 +64,7 @@ namespace Householder.Server.Host.Expenses
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> UpdateExpense([FromBodyAndRoute] UpdateExpenseCommand command)
@@ -80,6 +83,7 @@ namespace Householder.Server.Host.Expenses
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> DeleteExpense([FromRoute] DeleteExpenseCommand command)

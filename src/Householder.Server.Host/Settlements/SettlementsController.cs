@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using CQRS.Command.Abstractions;
 using CQRS.Query.Abstractions;
 using Householder.Server.Settlements;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -25,6 +26,7 @@ namespace Householder.Server.Host.Settlements
         }
 
         [HttpGet]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<SettlementDTO>>> GetSettlements([FromQuery] GetSettlementsQuery query)
         {
@@ -34,6 +36,7 @@ namespace Householder.Server.Host.Settlements
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<SettlementDTO>> GetSettlementById([FromRoute] GetSettlementByIdQuery query)
@@ -51,6 +54,7 @@ namespace Householder.Server.Host.Settlements
         }
 
         [HttpPut("{id}/status")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> UpdateSettlementStatus([FromBodyAndRoute] UpdateSettlementStatusCommand command)

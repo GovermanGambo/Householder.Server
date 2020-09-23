@@ -7,6 +7,7 @@ using Householder.Server.Expenses;
 using Householder.Server.Reconciliations;
 using Householder.Server.Residents;
 using Householder.Server.Settlements;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -29,6 +30,7 @@ namespace Householder.Server.Host.Reconciliations
         }
 
         [HttpPost]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult<long>> InsertReconciliation([FromBody] InsertReconciliationCommand command)
@@ -74,6 +76,7 @@ namespace Householder.Server.Host.Reconciliations
         }
 
         [HttpGet]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<ReconciliationWithSettlementsDTO>>> GetReconciliations([FromRoute] GetReconciliationsQuery query)
         {
@@ -90,6 +93,7 @@ namespace Householder.Server.Host.Reconciliations
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ReconciliationWithSettlementsDTO>> GetReconciliationById([FromRoute] GetReconciliationByIdQuery query)
