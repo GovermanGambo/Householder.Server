@@ -20,7 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../Householder.Server/Householder.Server.csproj" />
-    <ProjectReference Include="../Householder.Server.Abstractions/Householder.Server.Abstractions.csproj" />
+    <ProjectReference Include="../Householder.Server.Common/Householder.Server.Common.csproj" />
     <ProjectReference Include="../Householder.Server.Database/Householder.Server.Database.csproj" />
   </ItemGroup>
   <ItemGroup>

@@ -13,7 +13,7 @@
     <PackageReference Include="ResourceReader" Version="0.0.2" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="../Householder.Server.Abstractions/Householder.Server.Abstractions.csproj" />
+    <ProjectReference Include="../Householder.Server.Common/Householder.Server.Common.csproj" />
   </ItemGroup>
 
 </Project>
