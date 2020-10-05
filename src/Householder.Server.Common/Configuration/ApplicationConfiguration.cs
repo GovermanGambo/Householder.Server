@@ -1,4 +1,4 @@
-namespace Householder.Server.Abstractions
+namespace Householder.Server.Common
 {
     public class ApplicationConfiguration
     {

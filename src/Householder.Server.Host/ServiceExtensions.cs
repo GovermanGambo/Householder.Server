@@ -1,4 +1,4 @@
-using Householder.Server.Abstractions;
+using Householder.Server.Common;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
