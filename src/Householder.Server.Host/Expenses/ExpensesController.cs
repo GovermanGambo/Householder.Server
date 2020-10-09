@@ -7,11 +7,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Cors;
 
 namespace Householder.Server.Host.Expenses
 {
     [ApiController]
     [Route("api/[controller]")]
+    [EnableCors("AllowAllOrigins")]
     public class ExpensesController : ControllerBase
     {
         private readonly ILogger<ExpensesController> logger;

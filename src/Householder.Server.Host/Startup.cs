@@ -25,6 +25,16 @@ namespace Householder.Server.Host
         {
             var applicationConfiguration = services.AddApplicationConfiguration(Configuration);
                 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
+                    });
+            });
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => 
@@ -84,6 +94,8 @@ namespace Householder.Server.Host
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("AllowAllOrigins");
 
             app.UseAuthentication();
             app.UseAuthorization();
