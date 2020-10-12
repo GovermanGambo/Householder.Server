@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.Authentication.Certificate;
 
 namespace Householder.Server.Host
 {
@@ -27,7 +28,7 @@ namespace Householder.Server.Host
                 
             services.AddCors(options =>
             {
-                options.AddPolicy("AllowAllOrigins",
+                options.AddDefaultPolicy(
                     builder =>
                     {
                         builder.AllowAnyOrigin()
@@ -51,10 +52,15 @@ namespace Householder.Server.Host
                     };
                 }                
             );
+
+            //services.AddAuthentication(CertificateAuthenticationDefaults.AuthenticationScheme).AddCertificate();
+
             services.AddMvc(options =>
             {
 
             }).AddControllersAsServices().AddNewtonsoftJson();
+
+            //services.AddControllers().AddNewtonsoftJson();
 
             services.AddSwaggerGen(c =>
             {
@@ -95,7 +101,9 @@ namespace Householder.Server.Host
 
             app.UseRouting();
 
-            app.UseCors("AllowAllOrigins");
+            //app.UseCertificateForwarding();
+
+            app.UseCors();
 
             app.UseAuthentication();
             app.UseAuthorization();

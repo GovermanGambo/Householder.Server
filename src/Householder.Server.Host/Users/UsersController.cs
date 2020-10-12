@@ -83,5 +83,13 @@ namespace Householder.Server.Host.Residents
                 return NotFound();
             }
         }
+
+        [HttpPost("validate")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult ValidateToken() 
+        {
+            return Ok();
+        }
     }
 }

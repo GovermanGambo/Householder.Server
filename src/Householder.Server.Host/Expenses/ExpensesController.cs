@@ -13,7 +13,6 @@ namespace Householder.Server.Host.Expenses
 {
     [ApiController]
     [Route("api/[controller]")]
-    [EnableCors("AllowAllOrigins")]
     public class ExpensesController : ControllerBase
     {
         private readonly ILogger<ExpensesController> logger;
